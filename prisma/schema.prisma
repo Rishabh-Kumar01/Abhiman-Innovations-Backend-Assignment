@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Poll {
+  id         Int         @id @default(autoincrement())
+  userId     Int         // Keeping userId but not relating to User model
+  question   String
+  totalVoteCount  Int         @default(0) 
+  active     Boolean     @default(true)
+  expiresAt  DateTime
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  options    PollOption[]
+  votes      Vote[]
+}
+
+model PollOption {
+  id        Int      @id @default(autoincrement())
+  pollId    Int
+  text      String
+  voteCount Int      @default(0)
+  poll      Poll     @relation(fields: [pollId], references: [id])
+  votes     Vote[]
+}
+
+model Vote {
+  id           Int        @id @default(autoincrement())
+  pollId       Int
+  pollOptionId Int
+  userId       Int        // Keeping userId for vote tracking
+  createdAt    DateTime   @default(now())
+  poll         Poll       @relation(fields: [pollId], references: [id])
+  pollOption   PollOption @relation(fields: [pollOptionId], references: [id])
+
+  @@unique([pollId, userId])  // One vote per user per poll
+}
