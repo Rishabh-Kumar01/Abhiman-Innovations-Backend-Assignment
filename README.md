@@ -135,7 +135,7 @@ docker-compose up -d
 
 - **GET** `/api/polls/top`
 
-## WebSocket Events
+## Socket.IO Events
 
 ### Join Poll Room
 
@@ -170,6 +170,10 @@ ws://localhost:3000
 ```
 1 is the poll ID and join-poll is the event name.
 ```
+
+3. Add Events:
+
+![Add Events in the Events tab like in the image](image-1.png)
 
 3. Make a vote request:
 
