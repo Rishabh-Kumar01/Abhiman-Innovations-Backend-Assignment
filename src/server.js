@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import { kafkaConfig } from "./config/kafka.js";
 import { startConsumers } from "./consumers/index.js";
 import pollRoutes from "./routes/pollRoutes.js";
+import leaderboardRoutes from "./routes/leaderboardRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { AppError } from "./utils/error.js";
 import pollExpirationCron from "./cron/pollExpirationCron.js";
@@ -115,7 +116,8 @@ async function startServer() {
     });
 
     // API routes
-    app.use("/api/polls", pollRoutes);
+    app.use("/polls", pollRoutes);
+    app.use("/leaderboard", leaderboardRoutes);
 
     // Handle undefined routes
     app.all("*", (req, res, next) => {

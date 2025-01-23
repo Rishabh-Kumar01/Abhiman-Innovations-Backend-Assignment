@@ -187,6 +187,12 @@ POST http://localhost:3000/api/polls/1/vote
 }
 ```
 
+5. Leave a poll room: 
+
+![Click on the send button to leave the room]({65475690-9454-4F60-8D93-B6EDADB5A8D0}.png)
+
+- 1 is the poll Id and leave-poll is the event name in the image above.
+
 ## Docker Commands
 
 Start services:
