@@ -33,7 +33,7 @@ class PollExpirationCron {
 
   // Run every hour
   startCron() {
-    cron.schedule("* * * * *", async () => {
+    cron.schedule("0 * * * *", async () => {
       await this.deactivateExpiredPolls();
     });
   }

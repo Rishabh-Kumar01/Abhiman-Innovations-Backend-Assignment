@@ -8,6 +8,9 @@ import pollRoutes from "./routes/pollRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { AppError } from "./utils/error.js";
 import pollExpirationCron from "./cron/pollExpirationCron.js";
+import { socketService } from "./config/socket.js";
+import { createServer } from "http";
+import cors from "cors";
 
 dotenv.config();
 
@@ -75,7 +78,23 @@ async function startServer() {
     await connectDatabase();
     await initializeKafka();
 
+    // Create an Express application
     const app = express();
+
+    // Configure CORS for HTTP requests
+    app.use(
+      cors({
+        origin: "*",
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        credentials: true,
+      })
+    );
+
+    // Create an HTTP server
+    const httpServer = createServer(app);
+
+    // Initialize socket.io
+    socketService.initialize(httpServer);
 
     // Request parsing middleware
     app.use(express.json({ limit: "10kb" }));
@@ -108,7 +127,7 @@ async function startServer() {
 
     // Start the server
     const PORT = process.env.PORT || 3000;
-    const server = app.listen(PORT, () => {
+    const server = httpServer.listen(PORT, () => {
       console.log(
         `Server running on port ${PORT} in ${process.env.NODE_ENV} mode`
       );

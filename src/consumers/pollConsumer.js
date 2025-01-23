@@ -2,6 +2,7 @@ import { kafkaConfig } from "../config/kafka.js";
 import { PrismaClient } from "@prisma/client";
 import { AppError } from "../utils/error.js";
 import { PollRepository } from "../repositories/pollRepository.js";
+import { socketService } from "../config/socket.js";
 
 export class PollConsumer {
   constructor() {
@@ -48,13 +49,69 @@ export class PollConsumer {
     const { pollId, optionId, userId } = voteData;
 
     try {
-      await this.pollRepository.createVote(pollId, optionId, userId);
+      // Start a transaction
+      const result = await this.prisma.$transaction(async (prisma) => {
+        // Create the vote record
+        await prisma.vote.create({
+          data: {
+            pollId,
+            pollOptionId: optionId,
+            userId,
+          },
+        });
+
+        // Increment vote counts
+        await prisma.pollOption.update({
+          where: { id: optionId },
+          data: {
+            voteCount: {
+              increment: 1,
+            },
+          },
+        });
+
+        await prisma.poll.update({
+          where: { id: pollId },
+          data: {
+            totalVoteCount: {
+              increment: 1,
+            },
+          },
+        });
+
+        // Fetch updated poll data
+        const updatedPoll = await prisma.poll.findUnique({
+          where: { id: pollId },
+          include: {
+            options: {
+              select: {
+                id: true,
+                text: true,
+                voteCount: true,
+              },
+            },
+          },
+        });
+
+        return updatedPoll;
+      });
+
+      // Calculate percentages and prepare broadcast data
+      const pollData = {
+        ...result,
+        options: result.options.map((option) => ({
+          ...option,
+          percentage:
+            result.totalVoteCount > 0
+              ? ((option.voteCount / result.totalVoteCount) * 100).toFixed(2)
+              : "0.00",
+        })),
+      };
+
+      // Broadcast update to all clients viewing this poll
+      socketService.broadcastPollUpdate(pollId, pollData);
     } catch (error) {
-      if (error.code === "P2002") {
-        console.warn("Duplicate vote detected:", voteData);
-        // This is a duplicate vote - we can safely ignore it
-        return;
-      }
+      console.error("Error processing vote:", error);
       throw error;
     }
   }
