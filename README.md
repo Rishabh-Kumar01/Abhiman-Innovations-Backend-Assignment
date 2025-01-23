@@ -77,7 +77,7 @@ The project follows a clean architecture pattern with:
 
 - Docker
 - Docker Compose
-- Node.js v18+ (for local development)
+- Node.js v18+ 
 
 ## Installation
 
