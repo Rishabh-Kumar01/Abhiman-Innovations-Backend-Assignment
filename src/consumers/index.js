@@ -5,7 +5,6 @@ export async function startConsumers() {
     const pollConsumer = new PollConsumer();
     await pollConsumer.startConsumer();
 
-    // Handle graceful shutdown
     process.on("SIGTERM", async () => {
       console.log("SIGTERM signal received. Shutting down consumers...");
       await pollConsumer.stopConsumer();

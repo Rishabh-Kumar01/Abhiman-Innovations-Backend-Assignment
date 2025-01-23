@@ -4,7 +4,8 @@ import { AppError } from "../utils/error.js";
 class SocketService {
   constructor() {
     this.io = null;
-    this.pollRooms = new Map(); // Track users in each poll room
+    // Track users in each poll room
+    this.pollRooms = new Map();
   }
 
   initialize(server) {

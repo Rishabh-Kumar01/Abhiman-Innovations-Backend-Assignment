@@ -55,45 +55,6 @@ export class PollRepository {
     }
   }
 
-  async createVote(pollId, optionId, userId) {
-    try {
-      const [vote] = await this.prisma.$transaction([
-        // Create vote record
-        this.prisma.vote.create({
-          data: {
-            pollId,
-            pollOptionId: optionId,
-            userId,
-          },
-        }),
-        // Increment vote count in PollOption
-        this.prisma.pollOption.update({
-          where: { id: optionId },
-          data: {
-            voteCount: {
-              increment: 1,
-            },
-          },
-        }),
-        // Increment totalVoteCount in Poll
-        this.prisma.poll.update({
-          where: { id: pollId },
-          data: {
-            totalVoteCount: {
-              increment: 1,
-            },
-          },
-        }),
-      ]);
-      return vote;
-    } catch (error) {
-      if (error.code === "P2002") {
-        throw new AppError("You have already voted on this poll", 400);
-      }
-      throw new AppError(error.message, 400);
-    }
-  }
-
   async findTopPolls() {
     try {
       return await this.prisma.poll.findMany({

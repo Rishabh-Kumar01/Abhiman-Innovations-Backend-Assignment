@@ -41,7 +41,7 @@ async function initializeKafka() {
 async function gracefulShutdown(server) {
   console.log("Initiating graceful shutdown...");
 
-  // First, stop accepting new requests
+  // Stop accepting new requests
   server.close(async () => {
     console.log("Server stopped accepting new connections");
 

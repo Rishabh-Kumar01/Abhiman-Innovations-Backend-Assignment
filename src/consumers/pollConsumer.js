@@ -31,8 +31,6 @@ export class PollConsumer {
             console.log("Vote processed successfully:", voteData);
           } catch (error) {
             console.error("Error processing message:", error);
-            // Don't throw here - we want to continue processing other messages
-            // Instead, we could implement a dead letter queue
             await this.handleFailedMessage(message, error);
           }
         },
@@ -70,6 +68,7 @@ export class PollConsumer {
           },
         });
 
+        // Increment total vote count
         await prisma.poll.update({
           where: { id: pollId },
           data: {
@@ -117,8 +116,6 @@ export class PollConsumer {
   }
 
   async handleFailedMessage(message, error) {
-    // Implement dead letter queue logic here
-    // For now, we'll just log the error
     console.error("Failed to process message:", {
       message: message.value.toString(),
       error: error.message,
