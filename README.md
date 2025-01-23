@@ -49,8 +49,9 @@ polling-system/
 │   │   └── pollExpirationCron.js
 │   ├── utils/
 │   │   └── error.js
-│   └── routes/
-│       └── pollRoutes.js
+│   ├── routes/
+│   |   └── pollRoutes.js
+|   └──server.js
 ├── prisma/
 │   └── schema.prisma
 ├── scripts/
