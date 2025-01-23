@@ -79,12 +79,14 @@ The project follows a clean architecture pattern with:
 ## Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/Rishabh-Kumar01/Abhiman-Innovations-Backend-Assignment.git
 cd Abhiman-Innovations-Backend-Assignment
 ```
 
 2. Create a `.env` file:
+
 ```env
 NODE_ENV=development
 PORT=3000
@@ -94,6 +96,7 @@ KAFKA_TOPIC=poll-votes
 ```
 
 3. Build and start the containers:
+
 ```bash
 docker-compose up -d
 ```
@@ -101,57 +104,61 @@ docker-compose up -d
 ## API Documentation
 
 ### Create Poll
+
 - **POST** `/api/polls`
+
 ```json
 {
-    "userId": 1,
-    "question": "What's your favorite programming language?",
-    "options": [
-        "JavaScript",
-        "Python",
-        "Java",
-        "C++"
-    ],
-    "expiresAt": "2025-02-23T00:00:00.000Z"
+  "userId": 1,
+  "question": "What's your favorite programming language?",
+  "options": ["JavaScript", "Python", "Java", "C++"],
+  "expiresAt": "2025-02-23T00:00:00.000Z"
 }
 ```
 
 ### Vote on Poll
+
 - **POST** `/api/polls/:pollId/vote`
+
 ```json
 {
-    "userId": 2,
-    "optionId": 1
+  "userId": 2,
+  "optionId": 1
 }
 ```
 
 ### Get Poll Results
+
 - **GET** `/api/polls/:pollId/results`
 
 ### Get Top Polls
+
 - **GET** `/api/polls/top`
 
 ## WebSocket Events
 
 ### Join Poll Room
+
 ```javascript
-socket.emit('join-poll', pollId);
+socket.emit("join-poll", pollId);
 ```
 
 ### Listen for Updates
+
 ```javascript
-socket.on('poll-update', (pollData) => {
-    console.log('Poll updated:', pollData);
+socket.on("poll-update", (pollData) => {
+  console.log("Poll updated:", pollData);
 });
 
-socket.on('viewers-update', ({ count }) => {
-    console.log('Current viewers:', count);
+socket.on("viewers-update", ({ count }) => {
+  console.log("Current viewers:", count);
 });
 ```
 
 ## Testing with Postman
 
 1. Connect to Socket.IO:
+
 ```
 ws://localhost:3000
 ```
@@ -160,9 +167,12 @@ ws://localhost:3000
 
 ![Click on the send button to join the room](image.png)
 
+```
 1 is the poll ID and join-poll is the event name.
+```
 
 3. Make a vote request:
+
 ```
 POST http://localhost:3000/api/polls/1/vote
 {
@@ -174,21 +184,25 @@ POST http://localhost:3000/api/polls/1/vote
 ## Docker Commands
 
 Start services:
+
 ```bash
 docker-compose up -d
 ```
 
 Stop services:
+
 ```bash
 docker-compose down
 ```
 
 View logs:
+
 ```bash
 docker-compose logs -f
 ```
 
 Rebuild services:
+
 ```bash
 docker-compose up -d --build
 ```
@@ -196,11 +210,13 @@ docker-compose up -d --build
 ## Database Management
 
 Run migrations:
+
 ```bash
 docker-compose exec app npx prisma migrate deploy
 ```
 
 Reset database:
+
 ```bash
 docker-compose exec app npx prisma migrate reset
 ```
