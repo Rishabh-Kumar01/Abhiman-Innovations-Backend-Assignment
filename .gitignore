@@ -20,10 +20,6 @@ out/
 .nuxt/
 .output/
 
-# Prisma
-prisma/*.db
-prisma/migrations/
-.prisma/
 
 # Logs
 logs/
