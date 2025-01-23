@@ -1,6 +1,8 @@
 # Real-time Polling System
 
-A real-time polling system built with Node.js, Express, PostgreSQL, Kafka, and Socket.IO. The system allows users to create polls, vote on them, and get real-time updates when votes are cast.
+A real-time polling system built with Node.js, Express, PostgreSQL, Kafka, and
+Socket.IO. The system allows users to create polls, vote on them, and get
+real-time updates when votes are cast.
 
 ## Features
 
@@ -81,8 +83,8 @@ The project follows a clean architecture pattern with:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Rishabh-Kumar01/Abhiman-Innovations-Backend-Assignment.git
-cd Abhiman-Innovations-Backend-Assignment
+git clone https://github.com/Rishabh-Kumar01/Abhiman-Innovations-Backend-Assignment-By-Rishabh-Kumar.git
+cd Abhiman-Innovations-Backend-Assignment-By-Rishabh-Kumar
 ```
 
 2. Create a `.env` file:
@@ -105,7 +107,7 @@ docker-compose up -d
 
 ### Create Poll
 
-- **POST** `/api/polls`
+- **POST** `/polls`
 
 ```json
 {
@@ -118,7 +120,7 @@ docker-compose up -d
 
 ### Vote on Poll
 
-- **POST** `/api/polls/:pollId/vote`
+- **POST** `/polls/:pollId/vote`
 
 ```json
 {
@@ -129,11 +131,11 @@ docker-compose up -d
 
 ### Get Poll Results
 
-- **GET** `/api/polls/:pollId/results`
+- **GET** `/polls/:pollId/results`
 
 ### Get Top Polls
 
-- **GET** `/api/polls/top`
+- **GET** `/leaderboard`
 
 ## Socket.IO Events
 
@@ -167,15 +169,14 @@ ws://localhost:3000
 
 ![Click on the send button to join the room](image.png)
 
-
 - 1 is the poll ID and join-poll is the event name in the image above.
-
 
 3. Add Events:
 
 ![Add Events in the Events tab](image-1.png)
 
-- Add poll-update and viewers-update events in the Events tab like in the image above.
+- Add poll-update and viewers-update events in the Events tab like in the image
+  above.
 
 4. Make a vote request:
 
@@ -187,7 +188,7 @@ POST http://localhost:3000/api/polls/1/vote
 }
 ```
 
-5. Leave a poll room: 
+5. Leave a poll room:
 
 ![Click on the send button to leave the room]({65475690-9454-4F60-8D93-B6EDADB5A8D0}.png)
 
