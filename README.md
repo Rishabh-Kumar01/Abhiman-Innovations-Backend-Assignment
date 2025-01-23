@@ -167,15 +167,17 @@ ws://localhost:3000
 
 ![Click on the send button to join the room](image.png)
 
-```
-1 is the poll ID and join-poll is the event name.
-```
+
+- 1 is the poll ID and join-poll is the event name in the image above.
+
 
 3. Add Events:
 
-![Add Events in the Events tab like in the image](image-1.png)
+![Add Events in the Events tab](image-1.png)
 
-3. Make a vote request:
+- Add poll-update and viewers-update events in the Events tab like in the image above.
+
+4. Make a vote request:
 
 ```
 POST http://localhost:3000/api/polls/1/vote
