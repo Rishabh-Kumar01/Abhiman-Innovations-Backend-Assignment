@@ -95,11 +95,41 @@ KAFKA_BROKERS=kafka:9092
 KAFKA_TOPIC=poll-votes
 ```
 
-3. Build and start the containers:
+3. Stop the local services:
+
+# Stop PostgreSQL service
+
+```
+sudo systemctl stop postgresql
+```
+
+# Stop Kafka service
+
+```
+sudo systemctl stop kafka
+
+```
+
+# Stop Zookeeper service
+
+```
+sudo systemctl stop zookeeper
+
+```
+
+# Verify services are stopped
+
+````
+sudo systemctl status postgresql
+sudo systemctl status kafka
+sudo systemctl status zookeeper
+```
+
+4. Build and start the containers:
 
 ```bash
 docker-compose up -d
-```
+````
 
 ## API Documentation
 
