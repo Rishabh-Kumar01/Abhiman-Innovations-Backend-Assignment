@@ -98,7 +98,29 @@ KAFKA_BROKERS=kafka:9092
 KAFKA_TOPIC=poll-votes
 ```
 
-3. Build and start the containers:
+3. Free up required ports (3000, 5432, 2181, 9092)
+
+- On Linux:
+```bash
+# Identify process using port
+sudo lsof -i :<port_number>
+
+# Terminate process
+sudo kill <PID>
+# Or force terminate
+sudo kill -9 <PID>
+```
+
+- On Windows:
+```bash
+# Identify process using port
+netstat -ano | findstr :<port_number>
+
+# Terminate process
+taskkill /PID <PID> /F
+```
+
+4. Build and start the containers:
 
 ```bash
 docker-compose up -d
@@ -132,7 +154,7 @@ docker-compose up -d
 
 ### Get Poll Results
 
-- **GET** `/polls/:pollId/results`
+- **GET** `/polls/:pollId`
 
 ### Get Top Polls
 

@@ -6,6 +6,6 @@ const pollController = new PollController();
 
 router.post("/", pollController.createPoll);
 router.post("/:pollId/vote", pollController.vote);
-router.get("/:pollId/results", pollController.getPollResults);
+router.get("/:pollId", pollController.getPollResults);
 
 export default router;
